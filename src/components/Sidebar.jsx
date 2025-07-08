@@ -1,35 +1,34 @@
-import { Link, useLocation } from "react-router-dom";
-import { FaUserTie, FaUsers, FaTasks } from "react-icons/fa";
 
-export default function Sidebar({ role }) {
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+
+const Sidebar = () => {
   const { pathname } = useLocation();
 
-  const links = {
-    admin: [
-      { to: "/", icon: <FaUserTie />, label: "Dashboard" },
-      { to: "/clients", icon: <FaUsers />, label: "Clients (stub)" },
-      { to: "/tasks", icon: <FaTasks />, label: "Tasks (stub)" }
-    ],
-    staff: [{ to: "/staff", icon: <FaTasks />, label: "My Tasks" }],
-    client: [{ to: "/client", icon: <FaTasks />, label: "Services" }]
-  }[role] ?? [];
+  const menuItems = [
+    { label: "Dashboard", to: "/admin/dashboard" },
+    { label: "Clients", to: "/admin/clients" },
+    { label: "Tasks", to: "/admin/tasks" },
+    { label: "Staff", to: "/admin/staff" },
+  ];
 
   return (
-    <aside className="w-56 bg-white shadow-sm">
-      <h1 className="text-xl font-bold p-6 border-b">CA Manager</h1>
-      <nav className="p-4 space-y-2">
-        {links.map(({ to, icon, label }) => (
+    <aside className="w-64 bg-white h-screen shadow-md p-4">
+      <h2 className="text-xl font-semibold mb-4">Admin Panel</h2>
+      <nav className="flex flex-col gap-2">
+        {menuItems.map(({ label, to }) => (
           <Link
             key={to}
             to={to}
-            className={\`flex items-center gap-3 px-3 py-2 rounded 
-              \${pathname === to ? "bg-primary text-white" : "hover:bg-gray-100"}\`}
+            className={`flex items-center gap-3 px-3 py-2 rounded 
+              ${pathname === to ? "bg-primary text-white" : "hover:bg-gray-100"}`}
           >
-            {icon}
             {label}
           </Link>
         ))}
       </nav>
     </aside>
   );
-}
+};
+
+export default Sidebar;
